@@ -14,32 +14,7 @@ Requirements
 Attributes
 ----------
 #### lapack::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['lapack']['version']</tt></td>
-    <td>Text</td>
-    <td>Version</td>
-    <td><tt>3.5.0</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['lapack']['download_url']</tt></td>
-    <td>Text</td>
-    <td>Download URL</td>
-    <td><tt>http://www.netlib.org/lapack/lapack-#{node['lapack']['version']}.tgz</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['lapack']['download_dir']</tt></td>
-    <td>Text</td>
-    <td>Download directory</td>
-    <td><tt>/root/source</tt></td>
-  </tr>
-</table>
+TBD
 
 Usage
 -----
