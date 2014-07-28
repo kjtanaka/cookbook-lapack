@@ -1,8 +1,9 @@
 #
 # Cookbook Name:: lapack
 # Recipe:: default
+# Author:: Koji Tanaka (<kj.tanaka@gmail.com>)
 #
-# Copyright 2014, YOUR_COMPANY_NAME
+# Copyright 2014, FutureGrid, Indiana University
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,3 +17,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe 'build-essential'
+
+node['lapack']['required_packages'].each do |pkg|
+  package pkg do
+    action :install
+  end
+end
