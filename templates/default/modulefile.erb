@@ -1,0 +1,34 @@
+#%Module1.0###########################################################
+proc moduleVersion { } {
+        if { ! [regexp {[^/]*$} [module-info name] ver] } {
+                puts stderr "Internal modulefile error."
+        }
+        return $ver
+}
+
+set ver        [moduleVersion]
+set path       <%= @lapack_install_dir %>/lapack-$ver
+
+proc ModulesHelp { } {
+   puts stderr "This module adds the Lapack library to various paths"
+   puts stderr "See http://www.netlib.org/lapack/ for further details"
+}
+
+module-whatis   "Sets up Lapack in your environment"
+
+conflict lapack
+
+prepend-path LD_LIBRARY_PATH $path/lib
+prepend-path LAPACK $path/lib/liblapack.a
+
+if [ module-info mode load ] {
+        puts stderr "Lapack version $ver loaded"
+}
+
+if [ module-info mode switch2 ] {
+        puts stderr "Lapack version $ver loaded"
+}
+
+if [ module-info mode remove ] {
+        puts stderr "Lapack version $ver unloaded"
+}
