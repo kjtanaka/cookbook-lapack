@@ -26,15 +26,15 @@ node['lapack']['required_packages'].each do |pkg|
   end
 end
 
-directory "/root/source" do
+directory node['lapack']['download_dir'] do
   owner "root"
   group "root"
   mode "0755"
   action :create
 end
 
-remote_file "/root/source/lapack-3.5.0.tgz" do
-  source "http://www.netlib.org/lapack/lapack-3.5.0.tgz"
+remote_file "#{node['lapack']['download_dir']}/lapack-#{node['lapack']['version']}.tgz" do
+  source node['lapack']['download_url']
   owner "root"
   group "root"
   mode "0644"
@@ -42,12 +42,12 @@ remote_file "/root/source/lapack-3.5.0.tgz" do
 end
 
 execute "extract_tarball" do
-  cwd "/root/source"
-  command "tar zxf lapack-3.5.0.tgz"
-  creates "lapack-3.5.0"
+  cwd node['lapack']['download_dir']
+  command "tar zxf lapack-#{node['lapack']['version']}.tgz"
+  creates "lapack-#{node['lapack']['version']}"
 end
 
-cookbook_file "/root/source/lapack-3.5.0/make.inc" do
+cookbook_file "#{node['lapack']['download_dir']}/lapack-#{node['lapack']['version']}/make.inc" do
   owner "root"
   group "root"
   mode "0644"
@@ -55,12 +55,12 @@ cookbook_file "/root/source/lapack-3.5.0/make.inc" do
 end
 
 execute "make" do
-  cwd "/root/source/lapack-3.5.0/SRC"
+  cwd "#{node['lapack']['download_dir']}/lapack-#{node['lapack']['version']}/SRC"
   command "make"
   creates "../liblapack.a"
 end
 
-directory "/opt/lapack-3.5.0/lib" do
+directory "#{node['lapack']['install_dir']}/lapack-#{node['lapack']['version']}/lib" do
   owner "root"
   group "root"
   mode "0755"
@@ -69,7 +69,8 @@ directory "/opt/lapack-3.5.0/lib" do
 end
 
 execute "copy_liblapack" do
-  cwd "/root/source/lapack-3.5.0"
-  command "cp liblapack.a /root/source/lapack-3.5.0"
-  creates "/root/source/lapack-3.5.0/liblapack.a"
+  cwd "#{node['lapack']['download_dir']}/lapack-#{node['lapack']['version']}"
+  command "cp liblapack.a #{node['lapack']['install_dir']}/lapack-#{node['lapack']['version']}/lib"
+  creates "#{node['lapack']['install_dir']}/lapack-#{node['lapack']['version']}/lib/liblapack.a"
 end
+

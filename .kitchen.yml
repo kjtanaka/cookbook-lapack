@@ -20,3 +20,8 @@ suites:
     run_list:
       - recipe[lapack]
     attributes: {}
+  - name: modulefile
+    run_list:
+      - recipe[environment-modules]
+      - recipe[lapack::modulefile]
+    attributes: {}
